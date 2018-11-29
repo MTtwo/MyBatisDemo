@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       ">
+       
+     <!--普通注解扫描  -->
+    <context:component-scan base-package="com.etc"></context:component-scan>
+    <!-- 注解驱动支持 -->
+    <mvc:annotation-driven/>  
+    <!-- 静态资源处理 -->  
+    <mvc:default-servlet-handler/>
+    <!-- 视图解析器 -->
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       <property name="prefix" value="/WEB-INF/view/"></property>
+       <property name="suffix" value=".jsp"></property>
+   </bean>
+   
+   <!-- 配置拦截器 -->
+   <!--<mvc:interceptors>-->
+     <!--<mvc:interceptor>-->
+         <!--<mvc:mapping path="/*"/>-->
+         <!--<mvc:exclude-mapping path="/login"/>-->
+         <!--<bean class="com.etc.web.interceptor.LoginIntercepoter"></bean>-->
+     <!--</mvc:interceptor>-->
+   <!--</mvc:interceptors>-->
+  
+  <!--引入外部文件 Spring  -->
+  <import resource="classpath:application.xml"/>
+
+    <!-- 定时任务配置 scheduler 方式 注解 -->
+    <task:executor id="executor" pool-size="5"/>
+    <task:scheduler id="scheduler" pool-size="10"/>
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+  
+  
+</beans>
